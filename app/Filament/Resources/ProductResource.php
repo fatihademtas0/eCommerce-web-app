@@ -65,10 +65,11 @@ class ProductResource extends Resource
 
                 Forms\Components\Group::make()->schema([
                     Forms\Components\Section::make('Price')->schema([
-                        TextInput::make('price')
+                        Forms\Components\TextInput::make('price')
+                            ->label('Price')
                             ->numeric()
-                            ->required()
-                            ->prefix('$'),
+                            ->prefix('$')
+                            ->required(),
                     ]),
 
                     Forms\Components\Section::make('Associations')->schema([
@@ -120,8 +121,9 @@ class ProductResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->money('$')
-                    ->sortable(),
+                    ->label('Price')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => '$' . number_format($state, 2)),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),

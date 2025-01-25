@@ -20,7 +20,7 @@ class Order extends Model
         'notes',
     ];
 
-    protected function user(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
