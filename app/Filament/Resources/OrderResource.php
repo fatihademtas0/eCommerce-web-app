@@ -217,6 +217,8 @@ class OrderResource extends Resource
                         'delivered' => 'Delivered',
                         'cancelled' => 'Cancelled',
                     ])
+                    ->default('new')
+                    ->disablePlaceholderSelection()
                     ->searchable()
                     ->sortable(),
 
