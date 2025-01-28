@@ -43,7 +43,7 @@ class OrderStats extends BaseWidget
             Stat::make('Order Delivered', Order::query()->where('status', 'delivered')->count())
                 ->color('success') // Teslim edilen siparişler için yeşil renk
                 ->description('Orders successfully delivered')
-                ->descriptionIcon('heroicon-o-check-circle'),
+                ->descriptionIcon('heroicon-o-check-badge'),
 
             Stat::make('Order Cancelled', Order::query()->where('status', 'cancelled')->count())
                 ->color('danger') // İptal edilen siparişler için kırmızı renk

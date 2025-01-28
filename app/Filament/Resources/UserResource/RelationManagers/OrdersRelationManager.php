@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use App\Filament\Resources\OrderResource;
+use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -18,9 +20,7 @@ class OrdersRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('id')
-                    ->required()
-                    ->maxLength(255),
+                //
             ]);
     }
 
@@ -29,16 +29,61 @@ class OrdersRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('Order ID')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('grand_total')
+                    ->label('Total Price')
+                    ->money('USD'),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'new' => 'info',
+                        'processing' => 'warning',
+                        'shipped' => 'success',
+                        'delivered' => 'success',
+                        'cancelled' => 'danger',
+                    })
+                    ->icon(fn(string $state): string => match ($state) {
+                        'new' => 'heroicon-m-sparkles',
+                        'processing' => 'heroicon-m-clock',
+                        'shipped' => 'heroicon-m-truck',
+                        'delivered' => 'heroicon-m-check-badge',
+                        'cancelled' => 'heroicon-m-x-circle',
+                    })
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->label('Payment Method')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('payment_status')
+                    ->label('Payment Status')
+                    ->searchable()
+                    ->badge()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Order Date')
+                    ->dateTime()
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                //Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('View')
+                    ->url(fn(Order $record): string => OrderResource::getUrl('view', ['record' => $record]))
+                    ->color('info')
+                    ->icon('heroicon-o-eye'),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
