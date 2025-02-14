@@ -22,7 +22,6 @@ class BrandResource extends Resource
     protected static ?string $model = Brand::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
-
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?int $navigationSort = 2;
