@@ -20,7 +20,7 @@ class ProductDetailPage extends Component
     public function render()
     {
         return view('livewire.product-detail-page' , [
-            'product' => Product::where('slug' , $this->slug)->firstOrFail()
+            'products' => Product::where('slug' , $this->slug)->firstOrFail()
         ]);
     }
 }
