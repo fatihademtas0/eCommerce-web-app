@@ -26,7 +26,7 @@ class CartManagement
             $cart_items[$existing_item]['quantity']++;
             $cart_items[$existing_item]['total_amount'] = $cart_items[$existing_item]['quantity'] * $cart_items[$existing_item]['unit_amount'];
         } else {
-            $product = Product::where('id' == $product_id)->first(['id', 'name', 'price', 'images']);
+            $product = Product::where('id', $product_id)->first(['id', 'name', 'price', 'images']);
 
             if ($product) {
                 $cart_items[] = [
@@ -64,7 +64,14 @@ class CartManagement
     // add cart items to cookie
     public static function addCartItemsToCookie($cart_items)
     {
-        Cookie::queue('cart_items', json_encode($cart_items), 60 * 24 * 30);
+        $json_data = json_encode($cart_items);
+
+        if ($json_data === false) {
+            return false; // Eğer JSON dönüşüm başarısız olursa hata döndür
+        }
+
+        Cookie::queue('cart_items', $json_data, 60 * 24 * 30);
+        return true;
     }
 
     // clear cart items from cookie
@@ -74,7 +81,21 @@ class CartManagement
     }
 
     // get all cart item from cookie
+
     public static function getCartItemsFromCookie()
+    {
+        $cart_items = Cookie::get('cart_items');
+
+        if (!$cart_items) {
+            return []; // Eğer çerez yoksa boş dizi döndür
+        }
+
+        $decoded_items = json_decode($cart_items, true);
+
+        return is_array($decoded_items) ? $decoded_items : []; // JSON geçerli değilse boş dizi döndür
+    }
+    /*
+    public static function getCartItemsFromCookie(): array
     {
         $cart_items = json_encode(Cookie::get('cart_items'), true);
 
@@ -83,7 +104,7 @@ class CartManagement
         }
 
         return $cart_items;
-    }
+    }*/
 
     // increment item quantity
     public static function incrementQuantityToCartItem($product_id)

@@ -10,13 +10,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-200 dark:bg-slate-700">
-    @livewire('partials.navbar')
+@livewire('partials.navbar')
 
-    <main>
-        {{ $slot }}
-    </main>
+<main>
+    {{ $slot }}
+</main>
 
-    @livewire('partials.footer')
-    @livewireScripts
+@livewire('partials.footer')
+@livewireScripts
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<x-livewire-alert::scripts/>
 </body>
 </html>
