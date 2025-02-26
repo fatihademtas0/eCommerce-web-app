@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Helpers\CartManagement;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -32,6 +33,15 @@ class ProductsPage extends Component
     public $price_range = 50;
     public $isFiltered = false; // Filtrenin aktif olup olmadığını takip eder
 
+    #[Url]
+    public $sort = "latest";
+
+    // add product to cart method
+
+    public function addItemToCart($product_id)
+    {
+        $total_count = CartManagement::addItemToCart($product_id);
+    }
     public function updatedPriceRange()
     {
         $this->isFiltered = true; // Kullanıcı price_range değiştirdiğinde filtreyi aktif et
@@ -57,9 +67,16 @@ class ProductsPage extends Component
             $productQuery->where('on_sale', 1);
         }
 
-        if ( $this->isFiltered &&$this->price_range)
-        {
-            $productQuery->whereBetween('price' , [0 , $this->price_range]);
+        if ($this->isFiltered && $this->price_range) {
+            $productQuery->whereBetween('price', [0, $this->price_range]);
+        }
+
+        if ($this->sort == "latest") {
+            $productQuery->latest();
+        }
+
+        if ($this->sort == "price") {
+            $productQuery->orderBy('price', 'DESC');
         }
 
         return view('livewire.products-page', [

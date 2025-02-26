@@ -51,7 +51,8 @@ class ProductResource extends Resource
                             ->maxLength(255)
                             ->disabled()
                             ->dehydrated()
-                            ->unique(Product::class, 'slug', ignoreRecord: true),
+                            ->unique(Product::class, 'slug', ignoreRecord: true)
+                            ->debounce(1000),
 
                         Forms\Components\MarkdownEditor::make('description')
                             ->columnSpanFull()
@@ -127,7 +128,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label('Price')
                     ->sortable()
-                    ->formatStateUsing(fn ($state) => '$' . number_format($state, 2)),
+                    ->formatStateUsing(fn($state) => '$' . number_format($state, 2)),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
