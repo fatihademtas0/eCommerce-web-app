@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 class CartManagement
 {
     // add item to cart
-    public static function addItemToCart($product_id)
+    public static function addItemToCart($product_id): int
     {
         $cart_items = self::getCartItemsFromCookie();
 
@@ -46,7 +46,7 @@ class CartManagement
     }
 
     // add item to cart with quantity
-    public static function addItemToCartWithQuantity($product_id , $quantity = 1)
+    public static function addItemToCartWithQuantity($product_id , $quantity = 1): int
     {
         $cart_items = self::getCartItemsFromCookie();
 
@@ -83,7 +83,7 @@ class CartManagement
     }
 
     // remove item from cart
-    public static function removeItemFromCart($product_id)
+    public static function removeItemFromCart($product_id): array
     {
         $cart_items = self::getCartItemsFromCookie();
 
@@ -99,12 +99,12 @@ class CartManagement
     }
 
     // add cart items to cookie
-    public static function addCartItemsToCookie($cart_items)
+    public static function addCartItemsToCookie($cart_items): bool
     {
         $json_data = json_encode($cart_items);
 
         if ($json_data === false) {
-            return false; // Eğer JSON dönüşüm başarısız olursa hata döndür
+            return false; // Eger JSON donusum basarisiz olursa hata dondur
         }
 
         Cookie::queue('cart_items', $json_data, 60 * 24 * 30);
@@ -112,14 +112,14 @@ class CartManagement
     }
 
     // clear cart items from cookie
-    public static function clearCartItemsFromCookie($cart_items)
+    public static function clearCartItemsFromCookie($cart_items): void
     {
         Cookie::queue(Cookie::forget('cart_items'));
     }
 
     // get all cart item from cookie
 
-    public static function getCartItemsFromCookie()
+    public static function getCartItemsFromCookie(): array
     {
         $cart_items = Cookie::get('cart_items');
 
@@ -144,7 +144,7 @@ class CartManagement
     }*/
 
     // increment item quantity
-    public static function incrementQuantityToCartItem($product_id)
+    public static function incrementQuantityToCartItem($product_id): array
     {
         $cart_items = self::getCartItemsFromCookie();
 
@@ -161,7 +161,7 @@ class CartManagement
     }
 
     // decrement item quantity
-    public static function decrementQuantityToCartItem($product_id)
+    public static function decrementQuantityToCartItem($product_id): array
     {
         $cart_items = self::getCartItemsFromCookie();
 
@@ -180,7 +180,7 @@ class CartManagement
     }
 
     // calculate grand total
-    public static function calculateGrandTotal($items)
+    public static function calculateGrandTotal($items): float|int
     {
         return array_sum(array_column($items, 'total_amount'));
     }
