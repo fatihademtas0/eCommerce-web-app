@@ -79,7 +79,7 @@
                         <span class="font-semibold">{{Number::currency($final_total)}}</span>
                     </div>
                     @if($cartItems)
-                        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
+                        <a href="/checkout" class="bg-blue-500 text-white block text-center py-2 px-4 rounded-lg mt-4 w-full">Checkout</a>
                     @endif
                 </div>
             </div>
