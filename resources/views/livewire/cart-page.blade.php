@@ -27,16 +27,22 @@
                                 <td class="py-4">{{Number::currency($item['price'])}}</td>
                                 <td class="py-4">
                                     <div class="flex items-center">
-                                        <button class="border rounded-md py-2 px-4 mr-2">-</button>
+                                        <button wire:click="decreaseQuantity({{ $item['product_id'] }})"
+                                                class="border rounded-md py-2 px-4 mr-2">-
+                                        </button>
                                         <span class="text-center w-8">{{ $item['quantity'] }}</span>
-                                        <button class="border rounded-md py-2 px-4 ml-2">+</button>
+                                        <button wire:click="increaseQuantity({{ $item['product_id'] }})"
+                                                class="border rounded-md py-2 px-4 ml-2">+
+                                        </button>
                                     </div>
                                 </td>
                                 <td class="py-4">{{ Number::currency($item['total_amount'])}}</td>
                                 <td>
                                     <button
-                                        wire:click="removeItem({{ $item['product_id'] }})" class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700">
-                                        Remove
+                                        wire:click="removeItem({{ $item['product_id'] }})"
+                                        class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700">
+                                        <span wire:loading.remove wire:target="removeItem( {{ $item['product_id'] }})">Remove</span>
+                                        <span wire:loading wire:target="removeItem( {{ $item['product_id'] }})">Removing...</span>
                                     </button>
                                 </td>
                             </tr>
