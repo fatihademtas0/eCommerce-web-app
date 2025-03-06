@@ -19,9 +19,10 @@
                         <!-- Form -->
                         <form wire:submit.prevent="save">
 
-                            @if('error')
-                                <div class="mb-4 mt-2 bg-teal-500 text-sm text-white rounded-lg p-4" role="alert" tabindex="-1" aria-labelledby="hs-solid-color-success-label">
-                                    {{ session('error') }}
+                            @if(session('success'))
+                                <div class="mb-4 mt-2 bg-green-500 text-sm text-white rounded-lg p-4" role="alert"
+                                     tabindex="-1" aria-labelledby="hs-solid-color-danger-label">
+                                    {{ session('success') }}
                                 </div>
                             @endif
 
