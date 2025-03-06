@@ -29,7 +29,7 @@ Route::get('/cart', CartPage::class);
 Route::middleware('guest')->group(function () {
     Route::get('login', LoginPage::class)->name('login');
     Route::get('register', RegisterPage::class);
-    Route::get('/forgot', ForgotPasswordPage::class);
+    Route::get('/forgot', ForgotPasswordPage::class)->name('password.request');
     Route::get('/reset', ResetPasswordPage::class);
 });
 
