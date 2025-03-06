@@ -50,13 +50,15 @@ class ResetPasswordPage extends Component
                 event(new PasswordReset($user));
             }
         );
-        if ($status === Password::PASSWORD_RESET) {
-            return redirect('/login');
-        }
-
-        session()->flash('error', 'Something went wrong!');
-        return back();
-//        return $status === Password::PASSWORD_RESET ? redirect('/login') : session()->flash('error', 'Something went wrong!');
+//        if ($status === Password::PASSWORD_RESET) {
+//            return $this->redirect('/login');
+//        }
+//
+//
+//        session()->flash('error', 'Something went wrong!');
+//
+//        return back();
+        return $status === Password::PASSWORD_RESET ? redirect('/login') : session()->flash('error', 'Something went wrong!');
     }
 
     public function render()
