@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Helpers\CartManagement;
+use App\Models\Order;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -30,6 +31,30 @@ class CheckoutPage extends Component
             'zip_code' => 'required',
             'payment_method' => 'required'
         ]);
+
+        $cart_items = CartManagement::getCartItemsFromCookie();
+
+        $line_items = [];
+
+        foreach ($cart_items as $item)
+        {
+            $line_items[] = [
+                'price_data' => [
+                    'currency' => 'USD',
+                    'unit_amount' =>$item['unit_amount'] * 100,
+                    'product_data' => [
+                        'name' => $item['name'],
+                    ],
+                    'quantity' => $item['quantity'],
+                ]
+            ];
+        }
+
+        $order = new Order();
+
+        $order->user_id = auth()->user()->id;
+
+        $order->grand_total = CartManagement::calculateGrandTotal($cart_items);
     }
 
     public function render()
