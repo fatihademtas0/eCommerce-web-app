@@ -45,6 +45,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/my-orders/{order}', MyOrderDetailPage::class);
 
-    Route::get('/success', SuccessPage::class);
-    Route::get('/cancel', CancelPage::class);
+    Route::get('/success', SuccessPage::class)->name('success');
+    Route::get('/cancel', CancelPage::class)->name('cancel');
 });

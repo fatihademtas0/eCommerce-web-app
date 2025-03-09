@@ -112,7 +112,7 @@ class CartManagement
     }
 
     // clear cart items from cookie
-    public static function clearCartItemsFromCookie($cart_items): void
+    public static function clearCartItemsFromCookie(): void
     {
         Cookie::queue(Cookie::forget('cart_items'));
     }
@@ -183,6 +183,16 @@ class CartManagement
     public static function calculateGrandTotal($items): float|int
     {
         return array_sum(array_column($items, 'total_amount'));
+    }
+
+    public static function calculateTax($items): float|int
+    {
+        return (array_sum(array_column($items, 'total_amount'))) * 0.2;
+    }
+
+    public static function calculateShipping($items): float|int
+    {
+        return (array_sum(array_column($items, 'total_amount'))) * 0.01;
     }
 
 
