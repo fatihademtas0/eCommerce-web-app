@@ -35,4 +35,12 @@ class Order extends Model
     {
         return $this->hasOne(Address::class);
     }
+
+    public function getFinalTotalAttribute()
+    {
+        $tax = $this->grand_total * 0.2; // %20 vergi
+        $shipping = $this->grand_total * 0.01; // %1 kargo ücreti
+
+        return $this->grand_total + $tax + $shipping;
+    }
 }
