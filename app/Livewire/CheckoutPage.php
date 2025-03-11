@@ -26,7 +26,8 @@ class CheckoutPage extends Component
     {
         $cart_items = CartManagement::getCartItemsFromCookie();
 
-        if (count($cart_items) == 0) {
+        if (count($cart_items) == 0)
+        {
             return redirect('/products');
         }
     }
